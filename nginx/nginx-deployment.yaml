@@ -4,7 +4,7 @@ metadata:
   name: nginx-deployment
   namespace: default # You can change this to your specific namespace
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -23,8 +23,8 @@ spec:
         image: nginx:1.25 # Specify a stable image version
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "250m"
+            memory: "32Mi"
+            cpu: "100m"
           limits:
             memory: "1Gi"
             cpu: "1"
