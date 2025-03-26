@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    app: nginx
+spec:
+  type: ClusterIP  # Restricts access to within the cluster
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80            # Internal service port
+      targetPort: 80      # Container port
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: default
+  annotations:
+    appgw.ingress.kubernetes.io/appgw-ssl-certificate: "wingserp.net"
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: azure-application-gateway  # Specify the Ingress class
+  rules:
+    - host: error-page.wingserp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix  # Required field
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80
+
