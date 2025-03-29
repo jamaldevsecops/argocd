@@ -24,3 +24,14 @@ kubectl create secret tls wingerp.net-tls \
 kubectl apply -f nginx-deployment-and-hpa.yaml
 kubectl apply -f nginx-service-and-ingress.yaml
 ```
+### Verify the Deployment
+```sh
+kubectl get deploy
+kubectl get svc
+kubectl get ingress
+```
+
+### Access the Application through the Browser
+```sh
+https://error-page.wingserp.net
+```
