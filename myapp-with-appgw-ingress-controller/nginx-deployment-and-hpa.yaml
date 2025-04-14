@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.27 # Specify a stable image version
+        image: nginx:latest # Specify a stable image version
         resources:
           requests:
             memory: "32Mi"
