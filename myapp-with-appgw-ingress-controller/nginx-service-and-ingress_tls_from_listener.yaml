@@ -24,7 +24,7 @@ metadata:
 spec:
   ingressClassName: azure-application-gateway  # Specify the Ingress class
   rules:
-    - host: error-page.wingserp.net
+    - host: webapp.wingserp.net
       http:
         paths:
           - path: /
@@ -34,4 +34,3 @@ spec:
                 name: nginx-service
                 port:
                   number: 80
-
