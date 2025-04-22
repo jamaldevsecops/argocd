@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-ingress
+  namespace: argocd
+  annotations:
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
+    appgw.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    appgw.ingress.kubernetes.io/enable-pick-hostname-from-backend-http-settings: "true"
+    appgw.ingress.kubernetes.io/hostname-extension: "argocd.wingserp.net"
+spec:
+  ingressClassName: azure-application-gateway
+  tls:
+    - hosts:
+        - argocd.wingserp.net
+      secretName: argocd-tls  # Your SSL certificate
+  rules:
+    - host: argocd.wingserp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: argocd-server
+                port:
+                  number: 443  # Ensure HTTPS (443) is used
+

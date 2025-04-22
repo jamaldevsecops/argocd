@@ -17,25 +17,25 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nginx-ingress
-  namespace: default
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/ingress.class: nginx
+    # Optional useful annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /  # Ensures proper path rewriting
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"  # Set to true if using HTTPS
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"  # Set to true if forcing HTTPS
 spec:
-  ingressClassName: nginx  # Change this to "nginx" for NGINX Ingress Controller
-  tls:
-    - hosts:
-        - error-page.wingserp.net
-      secretName: wingerp.net-tls  # Ensure this secret exists in the "default" namespace
+  ingressClassName: nginx  # You can move this from annotation to here in newer versions
   rules:
-    - host: error-page.wingserp.net
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: nginx-service
-                port:
-                  number: 80  # Ensure your Nginx pod is listening on port 80
+  - host: webapp.wingserp.net
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: nginx-service
+              port:
+                number: 80
+
 
 

@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    app: nginx
+spec:
+  type: ClusterIP  # Restricts access to within the cluster
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80            # Internal service port
+      targetPort: 80      # Container port
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: default
+  annotations:
+    #nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+spec:
+  ingressClassName: nginx  # Change this to "nginx" for NGINX Ingress Controller
+  rules:
+    - host: webapp.wingserp.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service
+                port:
+                  number: 80  # Ensure your Nginx pod is listening on port 80
+
+
